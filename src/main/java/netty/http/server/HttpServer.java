@@ -22,16 +22,8 @@ import java.util.Map;
 public class HttpServer {
     private HttpServerConfig config;
     private int port;
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public void setRouters(Map<String, Router> routers) {
-        this.routers = routers;
-    }
-
     private Map<String, Router> routers;
+
     public final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public HttpServerConfig builder() {
@@ -63,5 +55,13 @@ public class HttpServer {
             e.printStackTrace();
         }
         log.info("Start app server at port:{}", port);
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public void setRouters(Map<String, Router> routers) {
+        this.routers = routers;
     }
 }
