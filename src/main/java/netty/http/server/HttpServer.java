@@ -22,21 +22,21 @@ import java.util.Map;
 public class HttpServer {
     private HttpServerConfig config;
     private int port;
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public void setRouters(Map<String, Router> routers) {
+        this.routers = routers;
+    }
+
     private Map<String, Router> routers;
     public final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public HttpServerConfig builder() {
-        this.config = new HttpServerConfig();
+        this.config = new HttpServerConfig(this);
         return config;
-    }
-
-    public HttpServer create() {
-        this.port = config.getInt("netty.http.server.port");
-        //获取controller类
-        Class<?>[] classes = config.getClasses();
-        //扫描注解
-        this.routers = AnnotationScan.getRouters(classes);
-        return this;
     }
 
     public void start() {

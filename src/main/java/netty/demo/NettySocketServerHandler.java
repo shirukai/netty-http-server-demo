@@ -24,7 +24,6 @@ public class NettySocketServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
         log.info("message:{}", msg);
         ctx.channel().writeAndFlush("返回信息给客户端：" + msg);
     }

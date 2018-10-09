@@ -11,6 +11,11 @@ public class HttpServerConfig {
     private ConcurrentHashMap<String, Object> conf = new ConcurrentHashMap<>();
     private static final String SERVER_CONTROLLERS = "netty.http.server.controllers";
     private static final String SERVER_PORT = "netty.http.server.port";
+    private HttpServer httpServer;
+
+    public HttpServerConfig(HttpServer httpServer) {
+        this.httpServer = httpServer;
+    }
 
     public HttpServerConfig set(String name, Object value) {
         conf.put(name, value);
@@ -128,6 +133,15 @@ public class HttpServerConfig {
             newClasses = addClasses;
         }
         return newClasses;
+    }
+
+    public HttpServer create() {
+        httpServer.setPort(this.getInt(SERVER_PORT));
+        //获取controller类
+        Class<?>[] classes = this.getClasses();
+        //扫描注解
+        httpServer.setRouters(AnnotationScan.getRouters(classes));
+        return this.httpServer;
     }
 
     public ConcurrentHashMap<String, Object> getConf() {
